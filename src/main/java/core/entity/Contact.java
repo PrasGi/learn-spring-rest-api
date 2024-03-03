@@ -1,10 +1,15 @@
 package core.entity;
 
-import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "contacts")
+@EntityListeners({AuditingEntityListener.class})
 public class Contact {
 
     @Id
@@ -36,11 +42,13 @@ public class Contact {
     private String phone;
     private String email;
     
+    @CreatedDate
     @Column(name = "created_at")
-    private Date createdAt;
-    
+    private Instant createdAt;
+
+    @LastModifiedDate
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private Instant updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

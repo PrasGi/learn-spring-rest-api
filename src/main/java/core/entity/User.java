@@ -1,10 +1,15 @@
 package core.entity;
 
-import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@EntityListeners({AuditingEntityListener.class})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +38,13 @@ public class User {
     @Column(name = "token_expired_at")
     private Long tokenExpiredAt;
 
+    @CreatedDate
     @Column(name = "created_at")
-    private Date createdAt;
+    private Instant createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private Instant updatedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
