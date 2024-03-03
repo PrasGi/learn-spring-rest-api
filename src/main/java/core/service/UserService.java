@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import core.dto.request.RegisterRequest;
+import core.dto.response.UserResponse;
 import core.entity.User;
 import core.helpers.BCrypt;
 import core.helpers.ValidationHelper;
@@ -44,5 +45,15 @@ public class UserService {
 
         userRepository.save(user);
         return user;
+    }
+
+    public UserResponse getCurrent(User user) {
+        return UserResponse.builder()
+            .id(user.getId())
+            .name(user.getName())
+            .email(user.getEmail())
+            .createdAt(user.getCreatedAt())
+            .updatedAt(user.getUpdatedAt())
+            .build();
     }
 }
